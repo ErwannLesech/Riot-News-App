@@ -1,6 +1,7 @@
 package com.example.riotnews
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +48,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     Image(
         painter = painterResource(id = R.drawable.bg_main),
         contentDescription = null,
@@ -57,16 +61,17 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
-        Text(
-            text = "Welcome to ${name}",
-            fontSize = 24.sp,
-            color = Color(0xFF0000FF),
-            modifier = Modifier.padding(16.dp)
+        Image(
+            painter = painterResource(id = R.drawable.riot_logo),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = if (isLandscape) Modifier.padding(8.dp) else Modifier.padding(32.dp)
         )
         Text(
-            text = "Made by Alexandra Wolter & Erwann Lesech",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(16.dp)
+            text = "Welcome to ${name}",
+            fontSize = 32.sp,
+            color = Color(0xFF0000FF),
+            modifier = if (isLandscape) Modifier.padding(8.dp) else Modifier.padding(32.dp)
         )
         Button(
             onClick = {
@@ -74,15 +79,14 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             }) {
             Text(
                 text = "Access app",
-                fontSize = 18.sp,
+                fontSize = 24.sp,
                 modifier = Modifier.padding(16.dp)
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.riot_logo),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.padding(16.dp)
+        Text(
+            text = "Made by Alexandra Wolter & Erwann Lesech",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(32.dp)
         )
     }
 
